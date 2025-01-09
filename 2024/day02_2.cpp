@@ -3,20 +3,18 @@
 #include <string>
 #include <vector>
 
-std::pair<bool,size_t> isSafeReport(const std::vector<int>& report) {
+std::pair<bool, size_t> isSafeReport(const std::vector<int> &report) {
   bool increasing = report[1] > report[0];
   for (size_t i = 0; i < (report.size() - 1); ++i) {
     int diff = report[i + 1] - report[i];
-    bool unsafe = (
-      (increasing && (diff < 1 || diff > 3)) ||
-      (!increasing && (diff < -3 || diff > -1))
-    );
+    bool unsafe = ((increasing && (diff < 1 || diff > 3)) ||
+                   (!increasing && (diff < -3 || diff > -1)));
     if (unsafe) return {false, i};
   }
   return {true, 0};
 }
 
-bool isSafeReportWithDampen(const std::vector<int>& report) {
+bool isSafeReportWithDampen(const std::vector<int> &report) {
   auto [safe, idx] = isSafeReport(report);
   if (safe) return true;
 
@@ -36,10 +34,11 @@ bool isSafeReportWithDampen(const std::vector<int>& report) {
 
   if (idx == 1) {
     std::vector<int> report_alt3{};
-    for (size_t i = 1; i < report.size(); ++i)
+    for (size_t i = 1; i < report.size(); ++i) {
       report_alt3.push_back(report[i]);
+    }
     if (isSafeReport(report_alt3).first) return true;
-  }  
+  }
 
   return false;
 }
@@ -60,7 +59,7 @@ int main() {
   }
 
   size_t num_safe_reports = 0;
-  for (const auto& report : reports) {
+  for (const auto &report : reports) {
     if (isSafeReportWithDampen(report)) {
       num_safe_reports++;
     }
